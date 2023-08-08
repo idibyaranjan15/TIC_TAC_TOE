@@ -1,5 +1,8 @@
 # TIC_TAC_TOE
 About
-A game of Tic-Tac-Toe created by in C++.  This project demonstrates a simple but fully-finished game built as a learning aid. The code is perhaps over-engineered for Tic-tac-toe but will be useful as a base for more advanced games.
+Tic-Tac-Toe-using-C++
 
+Implemented a modular and efficient Tic-Tac-Toe game using Object-Oriented Programming (OOP) principles in C++. Leveraged OOP concepts to design a reusable codebase, enhancing maintainability and extensibility. Optimized gameplay through algorithmic enhancements, resulting in a seamless and engaging user experience.
+
+I
 
