@@ -1,246 +1,186 @@
-#include<iostream>
-#include<stdlib.h>
-#include<windows.h>
+#include <iostream>
+#include <stdlib.h>
 using namespace std;
-main()
+
+class TicTacToe
 {
+private:
+    char board[3][3];
+    char turn;
+    bool draw;
 
+public:
+    TicTacToe()
+    {
+        // Initialize the board
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                board[i][j] = '1' + i * 3 + j;
+            }
+        }
+        turn = 'X';
+        draw = false;
+    }
 
-		char ch;
-		do{
-			system("CLS");
-			int i=0;
-	string arr[3][3]={{"1","2","3"},{"4","5","6"},{"7","8","9"}};
-	
+    void displayBoard()
+    {
+        cout << "PLAYER - 1 [X]\tPLAYER - 2 [O]\n\n";
+        cout << "\t\t     |     |     \n";
+        cout << "\t\t  " << board[0][0] << "  | " << board[0][1] << "  |  " << board[0][2] << " \n";
+        cout << "\t\t_____|_____|_____\n";
+        cout << "\t\t     |     |     \n";
+        cout << "\t\t  " << board[1][0] << "  | " << board[1][1] << "  |  " << board[1][2] << " \n";
+        cout << "\t\t_____|_____|_____\n";
+        cout << "\t\t     |     |     \n";
+        cout << "\t\t  " << board[2][0] << "  | " << board[2][1] << "  |  " << board[2][2] << " \n";
+        cout << "\t\t     |     |     \n";
+    }
 
-	
-do{
-	cout<<endl<<endl;
+    void playerTurn()
+    {
+        int choice;
+        int row, column;
 
-    int a;
+        if (turn == 'X')
+        {
+            cout << "\n\tPlayer - 1 [X] turn : ";
+        }
+        else if (turn == 'O')
+        {
+            cout << "\n\tPlayer - 2 [O] turn : ";
+        }
 
+        cin >> choice;
 
-cout<<arr[0][0]<<"  | "<<arr[0][1]<<"  | "<<arr[0][2]<<endl;
-cout<<"___|____|___"<<endl;
-cout<<arr[1][0]<<"  | "<<arr[1][1]<<"  | "<<arr[1][2]<<endl;
-cout<<"___|____|___"<<endl;
-cout<<arr[2][0]<<"  | "<<arr[2][1]<<"  | "<<arr[2][2]<<endl;
-cout<<"   |    |    "<<endl;
+        // switch case to get which row and column will be updated
+        switch (choice)
+        {
+        case 1:
+            row = 0;
+            column = 0;
+            break;
+        case 2:
+            row = 0;
+            column = 1;
+            break;
+        case 3:
+            row = 0;
+            column = 2;
+            break;
+        case 4:
+            row = 1;
+            column = 0;
+            break;
+        case 5:
+            row = 1;
+            column = 1;
+            break;
+        case 6:
+            row = 1;
+            column = 2;
+            break;
+        case 7:
+            row = 2;
+            column = 0;
+            break;
+        case 8:
+            row = 2;
+            column = 1;
+            break;
+        case 9:
+            row = 2;
+            column = 2;
+            break;
+        default:
+            cout << "Invalid Move";
+            playerTurn();
+        }
 
+        if (turn == 'X' && board[row][column] != 'X' && board[row][column] != 'O')
+        {
+            board[row][column] = 'X';
+            turn = 'O';
+        }
+        else if (turn == 'O' && board[row][column] != 'X' && board[row][column] != 'O')
+        {
+            board[row][column] = 'O';
+            turn = 'X';
+        }
+        else
+        {
+            cout << "Box already filled!\nPlease choose another!!\n\n";
+            playerTurn();
+        }
 
+        displayBoard();
+    }
 
+    bool isGameOver()
+    {
+        // Check for win in rows and columns
+        for (int i = 0; i < 3; i++)
+        {
+            if (board[i][0] == board[i][1] && board[i][0] == board[i][2] ||
+                board[0][i] == board[1][i] && board[0][i] == board[2][i])
+            {
+                return true;
+            }
+        }
 
+        // Check for win in diagonals
+        if (board[0][0] == board[1][1] && board[0][0] == board[2][2] ||
+            board[0][2] == board[1][1] && board[0][2] == board[2][0])
+        {
+            return true;
+        }
 
+        // Check if the game is in continue mode or not
+        for (int i = 0; i < 3; i++)
+        {
+            for (int j = 0; j < 3; j++)
+            {
+                if (board[i][j] != 'X' && board[i][j] != 'O')
+                {
+                    return false;
+                }
+            }
+        }
 
+        draw = true;
+        return true;
+    }
 
-cout<<"\nEnter player A"<<endl;
-cin>>a;
-switch(a)
+    void playGame()
+    {
+        cout << "\t\t\tT I C K -- T A C -- T O E -- G A M E\t\t\t";
+        cout << "\n\t\t\t\tFOR 2 PLAYERS\n\t\t\t";
+
+        while (!isGameOver())
+        {
+            displayBoard();
+            playerTurn();
+        }
+
+        if (turn == 'X' && !draw)
+        {
+            cout << "\n\nCongratulations! Player with 'X' has won the game";
+        }
+        else if (turn == 'O' && !draw)
+        {
+            cout << "\n\nCongratulations! Player with 'O' has won the game";
+        }
+        else
+        {
+            cout << "\n\nGAME DRAW!!!\n\n";
+        }
+    }
+};
+
+int main()
 {
-	case 1:
-		if(arr[0][0]!="A"&&arr[0][0]!="B")
-		{
-		arr[0][0]="A";
-	    }
-	    else{
-	    	cout<<"Already Filled try in next turn"<<endl;
-		}
-		break;
-	case 2:
-		if(arr[0][1]!="A"&&arr[0][1]!="B")
-		{
-		arr[0][1]="A";
-	    }
-	else{
-	    	cout<<"Already Filled try in next turn"<<endl;
-		}
-		break;
-	case 3:
-		if(arr[0][2]!="A"&&arr[0][2]!="B")
-		{
-		arr[0][2]="A";
-	    }
-		else{
-	    	cout<<"Already Filled try in next turn"<<endl;
-		}
-		break;
-	case 4:
-		if(arr[1][0]!="A"&&arr[1][0]!="B")
-		{
-		arr[1][0]="A";
-	}
-	else{
-	    	cout<<"Already Filled try in next turn"<<endl;
-		}
-		break;
-	case 5:
-		if(arr[1][1]!="A"&&arr[1][1]!="B")
-		{
-		arr[1][1]="A";
-	}
-		else{
-	    	cout<<"Already Filled try in next turn"<<endl;
-		}
-		break;
-	case 6:
-		if(arr[1][2]!="A"&&arr[1][2]!="B")
-		{
-		arr[1][2]="A";
-		}
-		else{
-	    	cout<<"Already Filled try in next turn"<<endl;
-		}
-		break;
-	case 7:
-		if(arr[2][0]!="A"&&arr[2][0]!="B")
-		{
-		arr[2][0]="A";
-		}
-		else{
-	    	cout<<"Already Filled try in next turn"<<endl;
-		}
-		break;
-	case 8:
-		if(arr[2][1]!="A"&&arr[2][1]!="B")
-		{
-		arr[2][1]="A";
-	}
-		else{
-	    	cout<<"Already Filled try in next turn"<<endl;
-		}
-		break;
-	case 9:
-			if(arr[2][2]!="A"&&arr[2][2]!="B")
-		{
-		arr[2][2]="A";
-		}
-		else{
-	    	cout<<"Already Filled try in next turn"<<endl;
-		}
-		break;
-	default:
-		cout<<"Invalid input please try again in next turn"<<endl;
-		Sleep(3000);
-	
-}
-if(arr[0][0]==arr[0][1]&&arr[0][1]==arr[0][2]||arr[1][0]==arr[1][1]&&arr[1][1]==arr[1][2]||arr[2][0]==arr[2][1]&&arr[2][1]==arr[2][2]
-||arr[0][0]==arr[1][0]&&arr[1][0]==arr[2][0]||arr[0][1]==arr[1][1]&&arr[1][1]==arr[2][1]||arr[0][2]==arr[1][2]&&arr[1][2]==arr[2][2]
-||arr[0][0]==arr[1][1]&&arr[1][1]==arr[2][2]||arr[0][2]==arr[1][1]&&arr[1][1]==arr[2][0])
-{
-	cout<<"***************Congratulations**************\n        Player A won the Game"<<endl;
-	break;
-}
-cout<<"\nEnter player B"<<endl;
-cin>>a;
-switch(a)
-{
-	case 1:
-		if(arr[0][0]!="A"&&arr[0][0]!="B")
-		{
-		arr[0][0]="B";
-	    }
-	    else{
-	    	cout<<"Already Filled try in next turn"<<endl;
-	    	Sleep(1000);
-		}
-		break;
-	case 2:
-		if(arr[0][1]!="A"&&arr[0][1]!="B")
-		{
-		arr[0][1]="B";
-	    }
-	else{
-	    	cout<<"Already Filled try in next turn"<<endl;
-	    		Sleep(1000);
-		}
-		break;
-	case 3:
-		if(arr[0][2]!="A"&&arr[0][2]!="B")
-		{
-		arr[0][2]="B";
-	    }
-		else{
-	    	cout<<"Already Filled try in next turn"<<endl;
-	    		Sleep(1000);
-		}
-		break;
-	case 4:
-		if(arr[1][0]!="A"&&arr[1][0]!="B")
-		{
-		arr[1][0]="B";
-	}
-	else{
-	    	cout<<"Already Filled try in next turn"<<endl;
-	    		Sleep(1000);
-		}
-		break;
-	case 5:
-		if(arr[1][1]!="A"&&arr[1][1]!="B")
-		{
-		arr[1][1]="B";
-	}
-		else{
-	    	cout<<"Already Filled try in next turn"<<endl;
-	    		Sleep(1000);
-		}
-		break;
-	case 6:
-		if(arr[1][2]!="A"&&arr[1][2]!="B")
-		{
-		arr[1][2]="B";
-		}
-		else{
-	    	cout<<"Already Filled try in next turn"<<endl;
-	    		Sleep(1000);
-		}
-		break;
-	case 7:
-		if(arr[2][0]!="A"&&arr[2][0]!="B")
-		{
-		arr[2][0]="B";
-		}
-		else{
-	    	cout<<"Already Filled try in next turn"<<endl;
-	    		Sleep(1000);
-		}
-		break;
-	case 8:
-		if(arr[2][1]!="A"&&arr[2][1]!="B")
-		{
-		arr[2][1]="B";
-	}
-		else{
-	    	cout<<"Already Filled try in next turn"<<endl;
-	    		Sleep(1000);
-		}
-		break;
-	case 9:
-			if(arr[2][2]!="A"&&arr[2][2]!="B")
-		{
-		arr[2][2]="B";
-		}
-		else{
-	    	cout<<"Already Filled try in next turn"<<endl;
-	    		Sleep(1000);
-		}
-		break;
-	default :
-		cout<<"Invalid input please try again in next turn"<<endl;
-		Sleep(3000);
-	
-}
-if(arr[0][0]==arr[0][1]&&arr[0][1]==arr[0][2]||arr[1][0]==arr[1][1]&&arr[1][1]==arr[1][2]||arr[2][0]==arr[2][1]&&arr[2][1]==arr[2][2]
-||arr[0][0]==arr[1][0]&&arr[1][0]==arr[2][0]||arr[0][1]==arr[1][1]&&arr[1][1]==arr[2][1]||arr[0][2]==arr[1][2]&&arr[1][2]==arr[2][2]
-||arr[0][0]==arr[1][1]&&arr[1][1]==arr[2][2]||arr[0][2]==arr[1][1]&&arr[1][1]==arr[2][0])
-{
-	cout<<"***************Congratulations**************\n        Player B won the Game"<<endl;
-	break;
-}
-
-system("CLS");
-i++;
-}while(i<5);
-cout<<"Press Y if you want to contine... "<<endl;
-cin>>ch;
-}while(ch=='y'||ch=='Y');
+    TicTacToe game;
+    game.playGame();
+    return 0;
 }
